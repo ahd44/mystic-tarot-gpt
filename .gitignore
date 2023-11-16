@@ -128,3 +128,5 @@ dist
 
 # local files
 local
+.DS_Store
+public/.DS_Store
