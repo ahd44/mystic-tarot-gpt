@@ -21,10 +21,10 @@ enum Phase {
 
 function ReaderChoices({ setReader, nextPhase, phase }: { setReader: Dispatch<SetStateAction<Reader>>, nextPhase: Function, phase: Phase }) {
 
-  return <div id="reader_choices" className={phase === Phase.ChooseReader ? "visible " : "hidden "}>
+  return <div id="reader_choices" className={(phase === Phase.ChooseReader ? "visible " : "hidden ") + "flex"}>
     {readers.map(function (x, i) {
-      return <div onClick={() => { setReader(x); nextPhase() }} key={"reader" + i}>
-        <h3>{x.name}</h3>
+      return <div className="bg-white p-2 rounded-lg bg-opacity-50" onClick={() => { setReader(x); nextPhase() }} key={"reader" + i}>
+        <h3 className="text-lg font-bold">{x.name}</h3>
         <div>{x.desc}</div>
       </div>;
     })}
@@ -33,9 +33,9 @@ function ReaderChoices({ setReader, nextPhase, phase }: { setReader: Dispatch<Se
 
 function SpreadChoices({ setSpread, nextPhase, phase }: { setSpread: Dispatch<SetStateAction<Spread>>, nextPhase: Function, phase: Phase }) {
 
-  return <div id="spread_choices" className={phase === Phase.ChooseSpread ? "visible " : "hidden "}>
-    <div onClick={() => { setSpread(Spread.CelticCross); nextPhase() }}>
-      <h3>Celtic Cross</h3>
+  return <div id="spread_choices" className={(phase === Phase.ChooseSpread ? "visible " : "hidden ") + "flex"}>
+    <div className="bg-white p-2 rounded-lg bg-opacity-50" onClick={() => { setSpread(Spread.CelticCross); nextPhase() }}>
+      <h3 className="text-lg font-bold">Celtic Cross</h3>
       <div>A 9-card spread used to investigate specific questions -- for example, &quot;Should I eat an apple or a banana?&quot;</div>
     </div>
   </div>
@@ -71,20 +71,11 @@ export default function Home() {
 
   async function loadReading(bio: string, question: string) {
     console.log("attempting reading");
-    const completion = await performReading(bio, question, cards);
+    const completion = await performReading(bio, question, cards, reader);
     console.log("done?");
     console.log(completion);
     setAiResponse(completion ?? "Error");
     movePhase();
-  }
-
-  async function testReading() {
-    console.log("test reading");
-    const completion = await performReading("I'm a 20 year old woman who loves to party.", "How can I find a job to afford feeding my kids?", shuffleAndSelect(9));
-    console.log("end test");
-    setAiResponse(completion ?? "Error");
-    setPhase(Phase.Reading);
-
   }
 
   function shuffleAndSelect(amt: number, exc?: string) {
@@ -114,11 +105,7 @@ export default function Home() {
 
   switch (phase) {
     case Phase.Initial:
-      textOutput = (
-        <>
-          Welcome to TarotGPT...
-        </>
-      );
+      textOutput = <> Welcome to TarotGPT... </>;
       enableClickToProceed = true;
       break;
     case Phase.ChooseReader:
@@ -172,17 +159,15 @@ export default function Home() {
       onClick={enableClickToProceed ? movePhase : function () { }}
       className="bg-slate-900 min-h-screen w-full text-black p-4"
     >
-      <button className="m-2 p-2 text-center w-1/2" type="button"
-        onClick={testReading}>Test Reading</button>
-      <div id="text_output" className="bg-white p-2 rounded-lg bg-opacity-50">
+      <div id="text_output" className="bg-white p-2 rounded-lg bg-opacity-50 mb-10">
         {textOutput}
         {enableClickToProceed ? clickHereToContinue : <></>}
       </div>
       <div id="user_input">
         <ReaderChoices setReader={setReader} nextPhase={movePhase} phase={phase} />
+        <SpreadChoices setSpread={setSpread} nextPhase={movePhase} phase={phase} />
         <TextAreaInput id="biographical_info" phase={phase} visiblePhase={Phase.ProvideBiography} nextPhase={movePhase} />
         <TextAreaInput id="question_to_answer" phase={phase} visiblePhase={Phase.ProvideQuestion} nextPhase={movePhase} />
-        <SpreadChoices setSpread={setSpread} nextPhase={movePhase} phase={phase} />
       </div>
       <div
         id="tarot_cards"
