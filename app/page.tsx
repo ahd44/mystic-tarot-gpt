@@ -278,11 +278,11 @@ export default function Home() {
       if (aiResponseArray.length > readingIndex + 1 || streamFinished) {
         enableNavArrows = true;
         navArrows = <div className="flex justify-between">
-          <div id="previousArrow" className={"p-2 bg-white text-xl select-none" + (readingIndex > 0 ? " opacity-100 cursor-pointer" : " opacity-0")} onClick={() => { setReadingIndex((i) => (i - 1 >= 0 ? i - 1 : 0)) }}>&lt;&mdash;</div>
+          <div id="previousArrow" className={"p-2 bg-white text-xl select-none rounded" + (readingIndex > 0 ? " opacity-100 cursor-pointer" : " opacity-0")} onClick={() => { setReadingIndex((i) => (i - 1 >= 0 ? i - 1 : 0)) }}>&lt;&mdash;</div>
           {streamFinished && readingIndex === aiResponseArray.length - 1 ?
-            <div id="summaryButton" className={"p-2 bg-white text-xl select-none cursor-pointer"} onClick={() => { movePhase() }}>Summary</div>
+            <div id="summaryButton" className={"p-2 bg-white text-xl select-none cursor-pointer rounded"} onClick={() => { movePhase() }}>Summary</div>
             :
-            <div id="nextArrow" className={"p-2 bg-white text-xl select-none" + (readingIndex + 1 < aiResponseArray.length ? " opacity-100 cursor-pointer" : " opacity-0 ")} onClick={() => { setReadingIndex((i) => (i + 1 < aiResponseArray.length ? (i + 1) : i)) }}>&mdash;&gt;</div>
+            <div id="nextArrow" className={"p-2 bg-white text-xl select-none rounded" + (readingIndex + 1 < aiResponseArray.length ? " opacity-100 cursor-pointer" : " opacity-0 ")} onClick={() => { setReadingIndex((i) => (i + 1 < aiResponseArray.length ? (i + 1) : i)) }}>&mdash;&gt;</div>
           }
         </div>
       }
