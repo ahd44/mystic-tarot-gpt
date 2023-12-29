@@ -5,7 +5,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'TarotGPT',
+  title: 'Mystic Tarot GPT',
   description: 'Tarot readings using ChatGPT',
 }
 
