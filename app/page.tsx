@@ -25,10 +25,10 @@ function ReaderChoices({ setReader, nextPhase, phase }: { setReader: Dispatch<Se
 
   return <div id="reader_choices" className={(phase === Phase.ChooseReader ? "visible opacity-100 " : "hidden opacity-0 ") + "flex w-full justify-around p-2 flex-wrap transition-all"}>
     {readers.map(function (x, i) {
-      return <div className="bg-white p-2 rounded-lg bg-opacity-50 w-2/5 text-center my-2 select-none cursor-pointer" onClick={() => { setReader(x); nextPhase() }} key={"reader" + i}>
+      return <div className="bg-white p-2 rounded-lg bg-opacity-50 w-2/5 text-center my-2 select-none cursor-pointer min-w-[135px]" onClick={() => { setReader(x); nextPhase() }} key={"reader" + i}>
         <h3 className="text-lg font-bold">{x.name}</h3>
-        <div className="h-[150px] w-[150px] relative block m-auto">
-          <Image src={"/img/reader/" + x.name + ".png"} alt={x.alt} fill={true} sizes="150px" />
+        <div className="max-w-[150px] relative block m-auto w-4/5">
+          <Image src={"/img/reader/" + x.name + ".png"} alt={x.alt} width={150} height={150} className="max-w-[150px] w-full" sizes="150px" priority={true} />
         </div>
         <div>{x.desc}</div>
       </div>;
@@ -100,7 +100,7 @@ function TarotCard({ name, cardIndex, currentIndex }: { name?: string, cardIndex
       hoverClasses = "hover:bottom-[calc(2%-0px)] hover:left-[calc(60%-28px)]";
       break;
     case 7:
-      positioningClasses = "bottom-[27%] left-[72%]";
+      positioningClasses = "bottom-[27%] left-[78%]";
       hoverClasses = "hover:bottom-[calc(27%-53px)] hover:left-[calc(72%-28px)]";
       break;
     case 8:
@@ -108,13 +108,13 @@ function TarotCard({ name, cardIndex, currentIndex }: { name?: string, cardIndex
       hoverClasses = "hover:top-[calc(27%-53px)] hover:left-[calc(60%-28px)]";
       break;
     case 9:
-      positioningClasses = "top-[2%] left-[72%]";
-      hoverClasses = "hover:top-[calc(2%-53px)] hover:left-[calc(72%-28px)]";
+      positioningClasses = "top-[2%] left-[78%]";
+      hoverClasses = "hover:top-[calc(2%-53px)] hover:left-[calc(78%-28px)]";
       break;
 
   }
 
-  const img = name && (typeof name) === 'string' ? <Image alt={name} src={"/img/card/" + name.replaceAll(" ", "") + ".jpg"} fill={true} sizes="104px" /> : <></>
+  const img = name && (typeof name) === 'string' ? <Image alt={name} src={"/img/card/" + name.replaceAll(" ", "") + ".jpg"} height={172} width={104} className="w-full" sizes="104px" priority={true} /> : <></>
   return <>
     <div className={"h-[106px] w-[56px] border-slate-400 border border-dashed rounded absolute z-0 " + positioningClasses}></div>
     <div className={"h-[106px] w-[56px] group text-xxs border-white border-2 rounded bg-slate-300 absolute z-10 transition-all" + (cardIndex <= currentIndex ? " visible opacity-100" : " hidden opacity-0") +
@@ -338,15 +338,15 @@ export default function Home() {
   return (
     <main
       id="content"
-      className="bg-slate-900 min-h-screen w-full text-black p-4 grid-cols-1 grid-rows-2 grid gap-2 "
+      className="bg-slate-900 min-h-svh w-full text-black p-2 grid-cols-1 grid-rows-2 grid gap-2 fixed"
     >
-      <div id="top_display" className="h-[47vh]"
+      <div id="top_display" className="h-[calc(50svh-0.75rem)]"
       >
         <div id="text_output" className="bg-white p-2 h-full overflow-y-auto rounded-lg bg-opacity-50 mb-10">
           {
             phase > Phase.ChooseReader && reader ?
-              <div className="h-[200px] w-[200px] float-left mr-2 mb-2 relative rounded">
-                <Image src={"/img/reader/" + reader.name + ".png"} fill={true} alt={reader.alt} sizes="200px" className="rounded" />
+              <div className="max-w-[200px] w-1/3 float-left mr-2 mb-2 relative rounded">
+                <Image src={"/img/reader/" + reader.name + ".png"} height={200} width={200} alt={reader.alt} sizes="200px" className="rounded" priority={true} />
               </div>
               : <></>
           }
